@@ -1,0 +1,8 @@
+{
+  "addons": {
+    "example-mediamod-addon": {
+      "addonClass": "com.mediamod.example.ExampleAddon",
+      "apiVersion": 1
+    }
+  }
+}

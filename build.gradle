@@ -1,0 +1,77 @@
+/**
+ * An example MediaMod addon using Kotlin
+ *
+ * This example uses Kotlin, specifically 1.4.31 at the moment
+ * It is not recommended to change the Kotlin version on your own as MediaMod will provide Kotlin at runtime
+ * ReplayMod's ForgeGradle is used here, the official ForgeGradle does not have great Kotlin support
+ *
+ * This example does not use a Forge Mod, if you want an example that has a Forge Mod and a MediaMod addon
+ * You can check out the other examples in this repository
+ */
+buildscript {
+    repositories {
+        maven { url "https://jitpack.io" }
+    }
+
+    dependencies {
+        classpath "com.github.jengelman.gradle.plugins:shadow:4.0.4"
+        classpath "com.github.ReplayMod:ForgeGradle:fab6116:all"
+    }
+}
+
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.4.31'
+    id 'com.github.johnrengelman.shadow' version '4.0.4'
+}
+
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+group 'com.mediamod.example'
+version '1.0-SNAPSHOT'
+sourceCompatibility = targetCompatibility = "1.8"
+
+minecraft {
+    version = "1.8.9-11.15.1.2318-1.8.9"
+    runDir = "run"
+    mappings = "stable_22"
+    makeObfSourceJar = true
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+configurations {
+    embed
+    compile.extendsFrom(embed)
+}
+
+dependencies {
+    // Don't remove these, they are required by MediaMod!
+    compileOnly 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0'
+    compileOnly ('com.github.MediaModMC:MediaMod:rewrite-SNAPSHOT') {
+        changing = true
+    }
+
+    // If you wish to include a dependency in your jar use the "embed" method
+    // embed 'com.example:ExampleDependency:1.0-SNAPSHOT'
+}
+
+shadowJar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    configurations = [project.configurations.embed]
+
+    /**
+     * It is not recommended to change these relocation settings, if you do your addon may not work!
+     */
+    relocate "kotlin", "mediamod.kotlin"
+    relocate "kotlinx", "mediamod.kotlinx"
+}
+
+configurations.all {
+    // Check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+tasks.build.finalizedBy tasks.shadowJar
