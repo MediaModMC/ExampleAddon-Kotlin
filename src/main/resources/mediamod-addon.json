@@ -2,6 +2,7 @@
   "addons": {
     "example-mediamod-addon": {
       "addonClass": "com.mediamod.example.ExampleAddon",
+      "displayName": "Example Addon",
       "apiVersion": 1
     }
   }
