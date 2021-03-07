@@ -61,12 +61,6 @@ dependencies {
 shadowJar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     configurations = [project.configurations.embed]
-
-    /**
-     * It is not recommended to change these relocation settings, if you do your addon may not work!
-     */
-    relocate "kotlin", "mediamod.kotlin"
-    relocate "kotlinx", "mediamod.kotlinx"
 }
 
 configurations.all {
