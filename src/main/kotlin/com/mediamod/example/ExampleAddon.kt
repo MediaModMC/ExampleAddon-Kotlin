@@ -6,7 +6,7 @@ import com.mediamod.core.service.MediaModServiceRegistry
 /**
  * An example addon for MediaMod 2.0
  *
- * @author Conor Byrne (dreamhopping)
+ * @author Conor Byrne
  */
 class ExampleAddon : MediaModAddon("example-mediamod-addon") {
     /**

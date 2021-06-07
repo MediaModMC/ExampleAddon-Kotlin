@@ -6,7 +6,7 @@ import com.mediamod.core.track.TrackMetadata
 /**
  * An example service for MediaMod 2.0
  *
- * @author Conor Byrne (dreamhopping)
+ * @author Conor Byrne
  */
 class ExampleService : MediaModService("example-addon-service") {
     /**
@@ -16,11 +16,12 @@ class ExampleService : MediaModService("example-addon-service") {
      *
      * @return null if there is no TrackMetadata available
      */
-    override fun fetchTrackMetadata() = TrackMetadata("My Track", "My Artist")
+    override fun fetchTrackMetadata() =
+        TrackMetadata("My Track", "My Artist", 0, 3600, "https://avatars.githubusercontent.com/u/71222289?v=4")
 
     /**
      * Called when MediaMod is querying your service to check if it is ready to provide track information
-     * You should NOT do any network operations on this call
+     * You can do network operations on this method
      *
      * @return true if you are ready to return [TrackMetadata], otherwise false
      */

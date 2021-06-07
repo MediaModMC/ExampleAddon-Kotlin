@@ -1,27 +1,29 @@
 /**
  * An example MediaMod addon using Kotlin
  *
- * This example uses Kotlin, specifically 1.4.31 at the moment
+ * This example uses Kotlin, specifically 1.5.10 at the moment
  * It is not recommended to change the Kotlin version on your own as MediaMod will provide Kotlin at runtime
- * ReplayMod's ForgeGradle is used here, the official ForgeGradle does not have great Kotlin support
+ * asbyth's ForgeGradle is used here, the official ForgeGradle for 1.8.9 is no longer maintained.
  *
  * This example does not use a Forge Mod, if you want an example that has a Forge Mod and a MediaMod addon
  * You can check out the other examples in this repository
  */
+
 buildscript {
     repositories {
+        maven { url "https://maven.minecraftforge.net" }
         maven { url "https://jitpack.io" }
     }
 
     dependencies {
-        classpath "com.github.jengelman.gradle.plugins:shadow:4.0.4"
-        classpath "com.github.ReplayMod:ForgeGradle:fab6116:all"
+        classpath "com.github.jengelman.gradle.plugins:shadow:5.2.0"
+        classpath "com.github.asbyth:ForgeGradle:da0302a"
     }
 }
 
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.4.31'
-    id 'com.github.johnrengelman.shadow' version '4.0.4'
+    id 'org.jetbrains.kotlin.jvm' version '1.5.10'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
@@ -40,6 +42,7 @@ minecraft {
 repositories {
     mavenCentral()
     maven { url 'https://jitpack.io' }
+    maven { url "https://repo.sk1er.club/repository/maven-public" }
 }
 
 configurations {
@@ -48,11 +51,11 @@ configurations {
 }
 
 dependencies {
-    // Don't remove these, they are required by MediaMod!
-    compileOnly 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0'
-    compileOnly ('com.github.MediaModMC:MediaMod:rewrite-SNAPSHOT') {
-        changing = true
-    }
+    // Don't remove these, they are required by MediaMod! You may need to change the commit hash (03764de at the moment) to a newer hash
+    compileOnly "com.google.code.gson:gson:2.8.6"
+    compileOnly "com.github.MediaModMC.MediaMod:core:03764de"
+    compileOnly "com.github.MediaModMC.MediaMod:forge-1.8.9:03764de"
+    compileOnly "gg.essential:Vigilance:107-10809-SNAPSHOT"
 
     // If you wish to include a dependency in your jar use the "embed" method
     // embed 'com.example:ExampleDependency:1.0-SNAPSHOT'
@@ -61,11 +64,6 @@ dependencies {
 shadowJar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     configurations = [project.configurations.embed]
-}
-
-configurations.all {
-    // Check for updates every build
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 
 tasks.build.finalizedBy tasks.shadowJar
